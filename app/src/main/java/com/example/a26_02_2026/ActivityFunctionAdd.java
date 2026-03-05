@@ -71,6 +71,7 @@ public class ActivityFunctionAdd extends AppCompatActivity {
             userDao.insertUser(user);
 
             startActivity(new Intent(ActivityFunctionAdd.this, MainActivity.class));
+
         });
 
     }

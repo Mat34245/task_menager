@@ -10,8 +10,11 @@ import java.util.List;
 
 @Dao
 public interface UserDao {
-    @Query("SELECT * FROM users")
+    @Query("SELECT * FROM users  WHERE is_done= 0")
     List<User> getUsers();
+
+    @Query("SELECT * FROM users WHERE is_done= 1")
+    List<User> getDoneTasks();
 
     @Insert
     void insertUser(User user);

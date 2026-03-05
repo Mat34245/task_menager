@@ -3,6 +3,7 @@ package com.example.a26_02_2026;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
@@ -14,12 +15,19 @@ import androidx.room.Room;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Adapter.onRowChangedListener {
 
     Button btn;
+    Button btn2;
     Adapter adapter;
+
+    Adapter adapter2;
     ListView listView;
+
+    ListView listView2;
     List<User> users;
+
+    List<User> DoneTasks;
     UserDao userDao;
 
     @Override
@@ -33,18 +41,29 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         listView = findViewById(R.id.listView);
+        listView2 = findViewById(R.id.listView2);
 
 
         AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "users")
                 .allowMainThreadQueries().build();
 
+
         userDao = db.getDao();
 
         users = userDao.getUsers();
+        DoneTasks= userDao.getDoneTasks();
 
-        adapter = new Adapter(users, MainActivity.this);
+        adapter = new Adapter(users, MainActivity.this, this);
+        adapter2 = new Adapter(DoneTasks,MainActivity.this,this);
         listView.setAdapter(adapter);
+        listView2.setAdapter(adapter2);
+
+
         btn = findViewById(R.id.btn);
+
+        btn2 = findViewById(R.id.btn2);
+
+        btn2.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MainActivity.class)));
 
         btn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ActivityFunctionAdd.class)));
 
@@ -52,6 +71,12 @@ public class MainActivity extends AppCompatActivity {
 //            userDao.insertUser(new User("folder/", "Kamil", true, "2026"));
 //            System.out.println(users);
 //        });
+
+    }
+
+    @Override
+    public void onRowChanged() {
+
     }
 }
 

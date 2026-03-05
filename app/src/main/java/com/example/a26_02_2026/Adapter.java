@@ -1,6 +1,7 @@
 package com.example.a26_02_2026;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +21,12 @@ import java.util.List;
 import java.util.Objects;
 
 public class Adapter extends ArrayAdapter<User> implements View.OnClickListener{
-
+    private onRowChangedListener listener;
     private  List<User> users;
-    public Adapter(List<User> users, Context context) {
+    public Adapter(List<User> users, Context context, onRowChangedListener listener) {
         super(context, 0, users);
         this.users = users;
+        this.listener = listener;
     }
     AppDatabase db = Room.databaseBuilder(getContext(), AppDatabase.class, "users")
             .allowMainThreadQueries().build();
@@ -36,6 +38,9 @@ public class Adapter extends ArrayAdapter<User> implements View.OnClickListener{
         System.out.println("Kliknięto na element");
     }
 
+    public interface onRowChangedListener{
+        void onRowChanged();
+    }
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -55,11 +60,11 @@ public class Adapter extends ArrayAdapter<User> implements View.OnClickListener{
         String[] iconsName = {"desktop", "build", "school", "work"};
         userDao = db.getDao();
 
-
         checkbox.setOnClickListener(V -> {
             if (checkbox.isChecked()) {
                 userDao.updateIsDone(true, current.id);
                 System.out.println("yup");
+                listener.onRowChanged();
                 return;
             }
             userDao.updateIsDone(false, current.id);
