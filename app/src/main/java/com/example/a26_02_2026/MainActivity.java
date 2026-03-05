@@ -76,7 +76,11 @@ public class MainActivity extends AppCompatActivity implements Adapter.onRowChan
 
     @Override
     public void onRowChanged() {
-
+//        DoneTasks = userDao.getDoneTasks();
+//        adapter = new Adapter(users, MainActivity.this, this);
+//        adapter2 = new Adapter(DoneTasks,MainActivity.this,this);
+//        listView.setAdapter(adapter);
+//        listView2.setAdapter(adapter2);
     }
 }
 

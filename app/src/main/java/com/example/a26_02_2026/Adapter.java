@@ -68,6 +68,7 @@ public class Adapter extends ArrayAdapter<User> implements View.OnClickListener{
                 return;
             }
             userDao.updateIsDone(false, current.id);
+            listener.onRowChanged();
             System.out.println("nope");
         });
 
