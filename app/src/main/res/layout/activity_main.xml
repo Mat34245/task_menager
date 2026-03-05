@@ -1,29 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical">
-
-    <Button
-        android:id="@+id/btn"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:background="#BDE8F5">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#BDE8F5">
 
+        <Button
+            android:id="@+id/btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Dodaj"
+            android:textSize="19dp"
+            android:textColor="@color/white"
+            android:backgroundTint="#0F2854"
+
+            />
+        <Button
+            android:text="Odśwież"
+            android:id="@+id/btn2"
+            android:textSize="19dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:backgroundTint="#0F2854"
+            android:paddingRight="10dp"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nieukończone"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.05"
+        android:textColor="@color/white"
+        android:background="@drawable/thebigblu"
+        android:padding="12dp"
+        android:gravity="center"
+        android:elevation="6dp"
+        android:layout_margin="10dp"/>
+
+    <!--Indian tutorial carrying me rn on how to make it accualy scroll-->
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="316dp"/>
-    <Button
-        android:id="@+id/btn2"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="#1C4D8D"
+        android:dividerHeight="6dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"/>
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Skończone"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.05"
+        android:textColor="@color/white"
+        android:background="@drawable/thebigblu"
+        android:padding="12dp"
+        android:gravity="center"
+        android:elevation="6dp"
+        android:layout_margin="10dp"/>
 
     <ListView
         android:id="@+id/listView2"
         android:layout_width="match_parent"
-        android:layout_height="316dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="#1C4D8D"
+        android:dividerHeight="6dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"/>
 </LinearLayout>

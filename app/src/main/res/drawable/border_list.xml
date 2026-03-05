@@ -1,0 +1,31 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Tło  -->
+    <item>
+        <shape>
+            <solid android:color="#BDE8F5"/>
+
+            <stroke
+                android:width="2dp"
+                android:color="#000000"/>
+
+            <corners android:radius="10dp"/>
+        </shape>
+    </item>
+
+    <!-- Nine Sols  -->
+    <item
+        android:gravity="top|end"
+        android:right="6dp"
+        android:top="6dp">
+
+        <shape android:shape="oval">
+            <size
+                android:width="36dp"
+                android:height="36dp"/>
+            <solid android:color="#FFF7CD"/>
+        </shape>
+
+    </item>
+
+</layer-list>
