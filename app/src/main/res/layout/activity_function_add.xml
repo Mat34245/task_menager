@@ -37,7 +37,7 @@
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_marginBottom="20dp"
-        android:text="Podaj Nazwe Aktywności"
+        android:hint="Podaj Nazwe Aktywności"
         android:textColor="#0F2854"
         android:backgroundTint="#1C4D8D"
         android:padding="12dp"
@@ -76,7 +76,12 @@
             android:textColor="#0F2854"/>
 
     </com.google.android.material.textfield.TextInputLayout>
-
+//KURWA MAC CZEMO TO TU NADAL JEST I NIKT TEGO NIE ZUPDATOWAŁ TO MI ZAJEŁO CHWILE ZEBY OGARNĄC CZEMO TO NIE DZIAŁĄ
+            <EditText
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:text="trzy"
+                android:layout_height="wrap_content"/>
             <Button
                 android:id="@+id/btn2"
                 android:layout_width="match_parent"

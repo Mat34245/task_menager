@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,6 +54,7 @@ public class Adapter extends ArrayAdapter<User> implements View.OnClickListener{
 //        User current = getItem(position);
         User current = users.get(position);
         TextView id = currentItemView.findViewById(R.id.id);
+        Button delbutton = currentItemView.findViewById(R.id.del);
         ImageView icon = currentItemView.findViewById(R.id.icon);
         LinearLayout listItem = currentItemView.findViewById(R.id.listItem);
         CheckBox checkbox = currentItemView.findViewById(R.id.checkbox);
@@ -76,6 +78,14 @@ public class Adapter extends ArrayAdapter<User> implements View.OnClickListener{
             System.out.println("Kliknięto na");
             System.out.println(current.id);
             notifyDataSetChanged();
+        });
+        delbutton.setOnClickListener(v -> {
+            System.out.println("Usun");
+            System.out.println(current.id);
+            userDao.deleteUserById(current.id);
+            users.remove(current);
+            notifyDataSetChanged();
+            listener.onRowChanged();
         });
 
         id.setText(current.id + "");

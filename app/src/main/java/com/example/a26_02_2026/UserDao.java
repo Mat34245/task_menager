@@ -21,4 +21,7 @@ public interface UserDao {
 
     @Query("UPDATE users SET is_done = :changeIsDone WHERE id = :whereId")
     void updateIsDone(boolean changeIsDone, int whereId);
+
+    @Query("DELETE FROM users WHERE id = :id")
+    void deleteUserById(int id);
 }
