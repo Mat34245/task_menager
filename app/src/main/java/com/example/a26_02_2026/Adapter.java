@@ -83,8 +83,11 @@ public class Adapter extends ArrayAdapter<User> implements View.OnClickListener{
             System.out.println("Usun");
             System.out.println(current.id);
             userDao.deleteUserById(current.id);
+            //ts usuwa obiekt z adaptera right?
             users.remove(current);
+            //to refreshuje listview (i think)
             notifyDataSetChanged();
+            //to updatuje activity chyba to jest useless
             listener.onRowChanged();
         });
 
