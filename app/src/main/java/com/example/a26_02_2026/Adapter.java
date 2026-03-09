@@ -83,8 +83,11 @@ public class Adapter extends ArrayAdapter<User> implements View.OnClickListener{
             System.out.println("Usun");
             System.out.println(current.id);
             userDao.deleteUserById(current.id);
+            //ts usuwa z adaptera
             users.remove(current);
+            //to updatuje list vier (i think)
             notifyDataSetChanged();
+            //uhhh to updatuje activity (kinda useless)
             listener.onRowChanged();
         });
 
