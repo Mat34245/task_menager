@@ -55,6 +55,7 @@ public class Adapter extends ArrayAdapter<User> implements View.OnClickListener{
         User current = users.get(position);
         TextView id = currentItemView.findViewById(R.id.id);
         Button delbutton = currentItemView.findViewById(R.id.del);
+        Button editbutton = currentItemView.findViewById(R.id.edit);
         ImageView icon = currentItemView.findViewById(R.id.icon);
         LinearLayout listItem = currentItemView.findViewById(R.id.listItem);
         CheckBox checkbox = currentItemView.findViewById(R.id.checkbox);
@@ -62,16 +63,38 @@ public class Adapter extends ArrayAdapter<User> implements View.OnClickListener{
         String[] iconsName = {"desktop", "build", "school", "work"};
         userDao = db.getDao();
 
+        if (current.isDone) {
+            checkbox.setChecked(true);
+        }
+
         checkbox.setOnClickListener(V -> {
             if (checkbox.isChecked()) {
                 userDao.updateIsDone(true, current.id);
-                System.out.println("yup");
+                listener.onRowChanged();
+                users.remove(current);
+                //to updatuje list vier (i think)
+                notifyDataSetChanged();
+                //uhhh to updatuje activity (kinda useless)
                 listener.onRowChanged();
                 return;
             }
             userDao.updateIsDone(false, current.id);
             listener.onRowChanged();
-            System.out.println("nope");
+            users.remove(current);
+            //to updatuje list vier (i think)
+            notifyDataSetChanged();
+            //uhhh to updatuje activity (kinda useless)
+            listener.onRowChanged();
+        });
+
+        editbutton.setOnClickListener(v -> {
+            Intent intent = new Intent(Adapter.this.getContext(), ActivityFunctionEdit.class);
+            intent.putExtra("id", current.id);
+            intent.putExtra("icon", current.icon);
+            intent.putExtra("name", current.name);
+            intent.putExtra("dueDate", current.dueDate);
+
+            getContext().startActivity(intent);
         });
 
         listItem.setOnClickListener(v -> {

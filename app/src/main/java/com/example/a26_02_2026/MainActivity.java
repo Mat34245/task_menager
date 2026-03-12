@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements Adapter.onRowChan
     Button btn2;
     Adapter adapter;
 
-    Adapter adapter2;
+    public Adapter adapter2;
     ListView listView;
 
     ListView listView2;
@@ -76,11 +76,12 @@ public class MainActivity extends AppCompatActivity implements Adapter.onRowChan
 
     @Override
     public void onRowChanged() {
-//        DoneTasks = userDao.getDoneTasks();
-//        adapter = new Adapter(users, MainActivity.this, this);
-//        adapter2 = new Adapter(DoneTasks,MainActivity.this,this);
-//        listView.setAdapter(adapter);
-//        listView2.setAdapter(adapter2);
+          DoneTasks = userDao.getDoneTasks();
+          users = userDao.getUsers();
+          adapter = new Adapter(users, MainActivity.this, this);
+          adapter2 = new Adapter(DoneTasks,MainActivity.this,this);
+          listView.setAdapter(adapter);
+          listView2.setAdapter(adapter2);
     }
 }
 

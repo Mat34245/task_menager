@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme._26_02_2026">
         <activity
+            android:name=".ActivityFunctionEdit"
+            android:exported="false" />
+        <activity
             android:name=".ActivityFunctionAdd"
             android:exported="false" />
         <activity
