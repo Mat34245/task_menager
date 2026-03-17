@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
@@ -20,14 +21,21 @@ public class MainActivity extends AppCompatActivity implements Adapter.onRowChan
     Button btn;
     Button btn2;
     Adapter adapter;
+    EditText wyszukaj;
 
     public Adapter adapter2;
+    Adapter adapter3;
+    Adapter adapter4;
     ListView listView;
 
     ListView listView2;
     List<User> users;
 
     List<User> DoneTasks;
+
+    List<User> searchDoneTasks;
+
+    List<User> searchTasks;
     UserDao userDao;
 
     @Override
@@ -63,7 +71,22 @@ public class MainActivity extends AppCompatActivity implements Adapter.onRowChan
 
         btn2 = findViewById(R.id.btn2);
 
-        btn2.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MainActivity.class)));
+        btn2.setOnClickListener(v -> {
+            wyszukaj = findViewById(R.id.wyszukiwanie);
+            String wyszukiwanie = '%'+wyszukaj.getText().toString()+'%';
+
+            searchDoneTasks = userDao.searchDoneTasks(wyszukiwanie);
+            searchTasks = userDao.searchTasks(wyszukiwanie);
+
+            adapter3 = new Adapter(searchTasks, MainActivity.this,this);
+            adapter4 = new Adapter(searchDoneTasks, MainActivity.this,this);
+
+            listView.setAdapter(adapter3);
+            listView2.setAdapter(adapter4);
+
+            System.out.println(wyszukiwanie);
+
+        });
 
         btn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ActivityFunctionAdd.class)));
 

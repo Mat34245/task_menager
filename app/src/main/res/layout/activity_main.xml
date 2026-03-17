@@ -8,8 +8,48 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+        >
+        <EditText
+            android:id="@+id/wyszukiwanie"
+            android:hint="Wyszukaj nazwe zadania"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10px"
+            android:layout_marginLeft="10px"
+            android:layout_marginRight="10px"
+            android:background="@drawable/search"
+            android:padding="10dp"
+            android:elevation="6px"
+            />
+        <Button
+            android:text="wyszukaj"
+            android:id="@+id/btn2"
+            android:textSize="19dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:backgroundTint="#0F2854"
+            android:paddingRight="10dp"
+            android:layout_marginBottom="20px"
+            android:layout_marginLeft="20px"
+            android:layout_marginRight="20px"
+            />
+
+    </LinearLayout>
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="#BDE8F5">
+
+
 
         <Button
             android:id="@+id/btn"
@@ -20,19 +60,12 @@
             android:textSize="19dp"
             android:textColor="@color/white"
             android:backgroundTint="#0F2854"
+            android:paddingRight="10dp"
+            android:layout_margin="20px"
+
 
             />
-        <Button
-            android:text="Odśwież"
-            android:id="@+id/btn2"
-            android:textSize="19dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@color/white"
-            android:backgroundTint="#0F2854"
-            android:paddingRight="10dp"
-            />
+
 
     </LinearLayout>
 

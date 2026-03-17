@@ -27,4 +27,10 @@ public interface UserDao {
 
     @Query("DELETE FROM users WHERE id = :id")
     void deleteUserById(int id);
+
+    @Query("SELECT * FROM users WHERE name LIKE :name AND is_done= 0")
+    List<User> searchTasks(String name);
+    @Query("SELECT * FROM users WHERE name LIKE :name AND is_done= 1")
+    List<User> searchDoneTasks(String name);
+
 }
