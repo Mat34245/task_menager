@@ -11,7 +11,7 @@ public class User
     public int id;
 
     @ColumnInfo(name = "icon")
-    public String icon;
+    public Integer icon;
 
     @ColumnInfo(name = "name")
     public String name;
@@ -22,7 +22,7 @@ public class User
     @ColumnInfo(name = "due_date")
     public String dueDate;
 
-    public User(String icon, String name, boolean isDone, String dueDate) {
+    public User(Integer icon, String name, boolean isDone, String dueDate) {
         this.icon = icon;
         this.name = name;
         this.isDone = isDone;

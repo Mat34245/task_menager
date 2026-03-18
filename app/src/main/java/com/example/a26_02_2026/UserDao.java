@@ -23,7 +23,7 @@ public interface UserDao {
     void updateIsDone(boolean changeIsDone, int whereId);
 
     @Query("UPDATE users SET name = :Name, icon = :Icon, due_date = :DueDate WHERE id = :Id")
-    void update(int Id, String Name, String Icon, String DueDate);
+    void update(int Id, String Name, Integer Icon, String DueDate);
 
     @Query("DELETE FROM users WHERE id = :id")
     void deleteUserById(int id);

@@ -2,6 +2,7 @@ package com.example.a26_02_2026;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,6 +68,9 @@ public class Adapter extends ArrayAdapter<User> implements View.OnClickListener{
             checkbox.setChecked(true);
         }
 
+        icon.setImageResource(current.icon);
+        icon.setColorFilter(Color.parseColor("#0F2854"));
+
         checkbox.setOnClickListener(V -> {
             if (checkbox.isChecked()) {
                 userDao.updateIsDone(true, current.id);
@@ -122,6 +126,9 @@ public class Adapter extends ArrayAdapter<User> implements View.OnClickListener{
                 System.out.println(current.icon + iconsName[i]);
             }
         }
+
+        TextView date = currentItemView.findViewById(R.id.dateText);
+        date.setText(current.dueDate);
 
         TextView name = currentItemView.findViewById(R.id.name);
         name.setText(current.name);

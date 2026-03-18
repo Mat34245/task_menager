@@ -15,11 +15,11 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:text="Edytuj Zadanie"
-        android:layout_marginLeft="87dp"
         android:textAlignment="center"
         android:textColor="#0F2854"
         android:textSize="28sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_gravity="center"/>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -41,45 +41,53 @@
                 android:textColor="#0F2854"
                 android:backgroundTint="#1C4D8D"
                 android:padding="12dp"
-                android:textSize="16sp"
+                android:textSize="20sp"
                 android:textColorHint="#4988C4"
                 android:layout_height="wrap_content"/>
 
 
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/icon"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Zmień ikonę"
-                android:layout_marginBottom="20dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                app:boxStrokeColor="#4988C4"
-                app:boxCornerRadiusTopStart="12dp"
-                app:boxCornerRadiusTopEnd="12dp"
-                app:boxCornerRadiusBottomStart="12dp"
-                app:boxCornerRadiusBottomEnd="12dp">
+                android:text="Edytuj Ikonę"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textSize="21sp"
+                android:textColor="#1C4D8D"
+                android:layout_marginBottom="8dp"/>
 
-                <AutoCompleteTextView
-                    android:id="@+id/iconAutoComplete"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Spinner
+                    android:id="@+id/icon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="none"
-                    android:textColor="#0F2854"/>
+                    android:background="@drawable/spinner_background"
+                    android:padding="5dp"/>
 
-            </com.google.android.material.textfield.TextInputLayout>
-            //KURWA MAC CZEMO TO TU NADAL JEST I NIKT TEGO NIE ZUPDATOWAŁ TO MI ZAJEŁO CHWILE ZEBY OGARNĄC CZEMO TO NIE DZIAŁĄ
-            <EditText
+                <ImageView
+                    android:id="@+id/arrow"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="12dp"
+                    android:src="@drawable/arrow"
+                    android:clickable="false"
+                    android:focusable="false"/>
+
+            </RelativeLayout>
+
+            <DatePicker
                 android:id="@+id/date"
                 android:layout_width="match_parent"
-                android:layout_marginBottom="20dp"
-                android:hint="Edytuj date"
-                android:textColor="#0F2854"
-                android:backgroundTint="#1C4D8D"
-                android:padding="12dp"
-                android:textSize="16sp"
-                android:textColorHint="#4988C4"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:minDate=""
+                android:datePickerMode="spinner"
+                android:calendarViewShown="false"/>
             <Button
                 android:id="@+id/btn2"
                 android:layout_width="match_parent"

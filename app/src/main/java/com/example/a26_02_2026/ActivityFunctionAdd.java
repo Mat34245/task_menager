@@ -1,13 +1,18 @@
 package com.example.a26_02_2026;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -23,11 +28,13 @@ public class ActivityFunctionAdd extends AppCompatActivity {
 
     UserDao userDao;
     Button btn;
-    EditText name, date;
+    EditText name;
     AutoCompleteTextView autoCompleteTextView;
-    String[] icons = {"desktop", "build", "school", "work"};
-    ArrayAdapter<String> dropdownAdapter;
-    TextInputLayout icon;
+    Integer[] iconsId = {R.drawable.desktop, R.drawable.build, R.drawable.school, R.drawable.work};
+    DropdownAdapter dropdownAdapter;
+    Spinner icon;
+    DatePicker date;
+    ImageView arrow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,34 +52,37 @@ public class ActivityFunctionAdd extends AppCompatActivity {
 
         userDao = db.getDao();
 
-        autoCompleteTextView = findViewById(R.id.iconAutoComplete);
-        dropdownAdapter = new ArrayAdapter<String>(this, R.layout.dropdown_item, icons);
-        autoCompleteTextView.setAdapter(dropdownAdapter);
+        date = findViewById(R.id.date);
+        icon = findViewById(R.id.icon);
 
-        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        dropdownAdapter = new DropdownAdapter(iconsId,this);
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-                Toast.makeText(ActivityFunctionAdd.this, "Icon " + item, Toast.LENGTH_SHORT).show();
-            }
-        });
+        icon.setAdapter(dropdownAdapter);
 
-
+        arrow = findViewById(R.id.arrow);
+        arrow.setColorFilter(Color.parseColor("#0F2854"));
         btn = findViewById(R.id.btn2);
 
         btn.setOnClickListener(v -> {
-            icon = findViewById(R.id.icon);
+            Integer selectedIcon = (Integer) icon.getSelectedItem();
             name = findViewById(R.id.name);
             date = findViewById(R.id.date);
 
-            User user = new User(icon.getEditText().getText().toString(), name.getText().toString(), false, date.getText().toString());
+            int day   = date.getDayOfMonth();
+            int month = date.getMonth() + 1;
+            int year  = date.getYear();
+
+            String dateForm = String.format("%02d/%02d/%04d", month, day, year);
+
+            User user = new User(selectedIcon, name.getText().toString(), false, dateForm);
 
             userDao.insertUser(user);
 
             startActivity(new Intent(ActivityFunctionAdd.this, MainActivity.class));
 
         });
+
+        date.setMinDate(System.currentTimeMillis());
 
     }
 }

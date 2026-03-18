@@ -1,13 +1,17 @@
 package com.example.a26_02_2026;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -23,11 +27,13 @@ public class ActivityFunctionEdit extends AppCompatActivity {
 
     UserDao userDao;
     Button btn;
-    EditText name, date;
+    EditText name;
     AutoCompleteTextView autoCompleteTextView;
-    String[] icons = {"desktop", "build", "school", "work"};
-    ArrayAdapter<String> dropdownAdapter;
-    TextInputLayout icon;
+    Integer[] iconsId = {R.drawable.desktop, R.drawable.build, R.drawable.school, R.drawable.work};
+    Spinner icon;
+    DatePicker date;
+    DropdownAdapter dropdownAdapter;
+    ImageView arrow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +54,7 @@ public class ActivityFunctionEdit extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
 
+        date = findViewById(R.id.date);
         int id = extras.getInt("id");
         String iconFromIntent = extras.getString("icon");
         String nameFromIntent = extras.getString("name");
@@ -59,31 +66,42 @@ public class ActivityFunctionEdit extends AppCompatActivity {
         userDao = db.getDao();
 
         name.setText(nameFromIntent);
-        date.setText(dueDateFromIntent);
 
-        icon.getEditText().setText(iconFromIntent);
+        date = findViewById(R.id.date);
+        icon = findViewById(R.id.icon);
 
-        autoCompleteTextView = findViewById(R.id.iconAutoComplete);
-        dropdownAdapter = new ArrayAdapter<String>(this, R.layout.dropdown_item, icons);
-        autoCompleteTextView.setAdapter(dropdownAdapter);
+        dropdownAdapter = new DropdownAdapter(iconsId,this);
 
-        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-                Toast.makeText(ActivityFunctionEdit.this, "Icon " + item, Toast.LENGTH_SHORT).show();
-            }
-        });
+        icon.setAdapter(dropdownAdapter);
+
+        arrow = findViewById(R.id.arrow);
+        arrow.setColorFilter(Color.parseColor("#0F2854"));
+
+        String[] parts = dueDateFromIntent.split("/");
+
+        int m = Integer.parseInt(parts[0]) - 1;
+        int d   = Integer.parseInt(parts[1]);
+        int y  = Integer.parseInt(parts[2]);
+
+        date.updateDate(y, m, d);
 
         btn.setOnClickListener(v -> {
-            icon = findViewById(R.id.icon);
+            Integer selectedIcon = (Integer) icon.getSelectedItem();
             name = findViewById(R.id.name);
             date = findViewById(R.id.date);
 
-            userDao.update(id, name.getText().toString(), icon.getEditText().getText().toString(), date.getText().toString());
+            int day   = date.getDayOfMonth();
+            int month = date.getMonth() + 1;
+            int year  = date.getYear();
+
+            String dateForm = String.format("%02d/%02d/%04d", month, day, year);
+
+            userDao.update(id, name.getText().toString(), selectedIcon, dateForm);
 
             startActivity(new Intent(ActivityFunctionEdit.this, MainActivity.class));
         });
+
+        date.setMinDate(System.currentTimeMillis());
 
     }
 }
