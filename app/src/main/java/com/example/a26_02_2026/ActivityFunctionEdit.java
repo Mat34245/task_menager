@@ -33,7 +33,7 @@ public class ActivityFunctionEdit extends AppCompatActivity {
     Spinner iconInput;
     ImageView arrowImg;
     DatePicker dateInput;
-    Button addButton;
+    Button editButton;
     int iconFromIntent, idFromIntent;
     String nameFromIntent, dueDateFromIntent;
     String[] parts = new String[3];
@@ -49,9 +49,16 @@ public class ActivityFunctionEdit extends AppCompatActivity {
             return insets;
         });
 
+        Bundle extras = getIntent().getExtras();
+
+        idFromIntent = extras.getInt("id");
+        iconFromIntent = extras.getInt("icon");
+        nameFromIntent = extras.getString("name");
+        dueDateFromIntent = extras.getString("dueDate");
+
         onInitialize();
 
-        addButton.setOnClickListener(v -> {
+        editButton.setOnClickListener(v -> {
             Integer selectedIcon = (Integer) iconInput.getSelectedItem();
 
             int day   = dateInput.getDayOfMonth();
@@ -70,19 +77,12 @@ public class ActivityFunctionEdit extends AppCompatActivity {
         dataBase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tasks").allowMainThreadQueries().build();
         taskDao = dataBase.getDao();
 
-        Bundle extras = getIntent().getExtras();
-
-        idFromIntent = extras.getInt("id");
-        iconFromIntent = extras.getInt("icon");
-        nameFromIntent = extras.getString("name");
-        dueDateFromIntent = extras.getString("dueDate");
-
         parts = dueDateFromIntent.split("/");
 
         nameInput = findViewById(R.id.nameInput);
         dateInput = findViewById(R.id.dateInput);
         iconInput = findViewById(R.id.iconInput);
-        addButton = findViewById(R.id.editButton);
+        editButton = findViewById(R.id.editButton);
 
         nameInput.setText(nameFromIntent);
 

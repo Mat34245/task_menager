@@ -19,6 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.Room;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -26,24 +28,22 @@ public class Adapter extends ArrayAdapter<Task> implements View.OnClickListener{
 
     private onRowChangedListener listener;
     private  List<Task> tasks;
+    AppDatabase dataBase;
+    TaskDao taskDao;
 
     public Adapter(List<Task> tasks, Context context, onRowChangedListener listener) {
         super(context, 0, tasks);
         this.tasks = tasks;
         this.listener = listener;
+        dataBase = Room.databaseBuilder(getContext(), AppDatabase.class, "tasks").allowMainThreadQueries().build();
+        taskDao = dataBase.getDao();
     }
 
     @Override
-    public void onClick(View v) { }
-    public interface onRowChangedListener{ void onRowChanged(); }
-
-    AppDatabase dataBase;
-    TaskDao taskDao;
-    Task current;
-    TextView dateView, nameView, idView;
-    ImageView iconView;
-    CheckBox checkbox;
-    Button deleteButton, editButton;
+    public void onClick(View v) { System.out.println("Kliknięto na element"); }
+    public interface onRowChangedListener{
+        void onRowChanged();
+    }
 
     @NonNull
     @Override
@@ -55,33 +55,44 @@ public class Adapter extends ArrayAdapter<Task> implements View.OnClickListener{
             currentItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
         }
 
-        onInitialize(position, currentItemView);
+        Task current = tasks.get(position);
+
+        TextView idView = currentItemView.findViewById(R.id.idView);
+        ImageView iconView = currentItemView.findViewById(R.id.iconView);
+        TextView nameView = currentItemView.findViewById(R.id.nameView);
+        TextView dateView = currentItemView.findViewById(R.id.dateView);
+        Button deleteButton = currentItemView.findViewById(R.id.deleteButton);
+        Button editButton = currentItemView.findViewById(R.id.editButton);
+        CheckBox checkbox = currentItemView.findViewById(R.id.checkbox);
+
+        iconView.setImageResource(current.icon);
+        iconView.setColorFilter(Color.parseColor("#0F2854"));
+
+        idView.setText(current.id + "");
+        dateView.setText(current.dueDate);
+        nameView.setText(current.name);
 
         if (current.isDone) {
             checkbox.setChecked(true);
-        } else {
-            checkbox.setChecked(false);
         }
 
         checkbox.setOnClickListener(V -> {
             if (checkbox.isChecked()) {
                 taskDao.updateIsDone(true, current.id);
-                updateTasks();
+                updateTasks(current);
             } else {
                 taskDao.updateIsDone(false, current.id);
-                updateTasks();
+                updateTasks(current);
             }
         });
 
         deleteButton.setOnClickListener(v -> {
             taskDao.deleteTask(current.id);
-            updateTasks();
+            updateTasks(current);
         });
 
         editButton.setOnClickListener(v -> {
             Intent intent = new Intent(Adapter.this.getContext(), ActivityFunctionEdit.class);
-
-            current = tasks.get(position);
 
             intent.putExtra("id", current.id);
             intent.putExtra("icon", current.icon);
@@ -94,29 +105,7 @@ public class Adapter extends ArrayAdapter<Task> implements View.OnClickListener{
         return currentItemView;
     }
 
-    public void onInitialize(int position, View currentItemView) {
-        dataBase = Room.databaseBuilder(getContext(), AppDatabase.class, "tasks").allowMainThreadQueries().build();
-        taskDao = dataBase.getDao();
-
-        current = tasks.get(position);
-
-        idView = currentItemView.findViewById(R.id.idView);
-        iconView = currentItemView.findViewById(R.id.iconView);
-        nameView = currentItemView.findViewById(R.id.nameView);
-        dateView = currentItemView.findViewById(R.id.dateView);
-        deleteButton = currentItemView.findViewById(R.id.deleteButton);
-        editButton = currentItemView.findViewById(R.id.editButton);
-        checkbox = currentItemView.findViewById(R.id.checkbox);
-
-        iconView.setImageResource(current.icon);
-        iconView.setColorFilter(Color.parseColor("#0F2854"));
-
-        idView.setText(current.id + "");
-        dateView.setText(current.dueDate);
-        nameView.setText(current.name);
-    }
-
-    public void updateTasks() {
+    public void updateTasks(Task current) {
         listener.onRowChanged();
         tasks.remove(current);
         notifyDataSetChanged();
