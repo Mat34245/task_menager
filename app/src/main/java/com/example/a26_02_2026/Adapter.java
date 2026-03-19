@@ -22,27 +22,29 @@ import androidx.room.Room;
 import java.util.List;
 import java.util.Objects;
 
-public class Adapter extends ArrayAdapter<User> implements View.OnClickListener{
+public class Adapter extends ArrayAdapter<Task> implements View.OnClickListener{
+
     private onRowChangedListener listener;
-    private  List<User> users;
-    public Adapter(List<User> users, Context context, onRowChangedListener listener) {
-        super(context, 0, users);
-        this.users = users;
+    private  List<Task> tasks;
+
+    public Adapter(List<Task> tasks, Context context, onRowChangedListener listener) {
+        super(context, 0, tasks);
+        this.tasks = tasks;
         this.listener = listener;
     }
-    AppDatabase db = Room.databaseBuilder(getContext(), AppDatabase.class, "users")
-            .allowMainThreadQueries().build();
-
-    UserDao userDao;
 
     @Override
-    public void onClick(View v) {
-        System.out.println("Kliknięto na element");
-    }
+    public void onClick(View v) { }
+    public interface onRowChangedListener{ void onRowChanged(); }
 
-    public interface onRowChangedListener{
-        void onRowChanged();
-    }
+    AppDatabase dataBase;
+    TaskDao taskDao;
+    Task current;
+    TextView dateView, nameView, idView;
+    ImageView iconView;
+    CheckBox checkbox;
+    Button deleteButton, editButton;
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -52,47 +54,35 @@ public class Adapter extends ArrayAdapter<User> implements View.OnClickListener{
         if (currentItemView == null) {
             currentItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
         }
-//        User current = getItem(position);
-        User current = users.get(position);
-        TextView id = currentItemView.findViewById(R.id.id);
-        Button delbutton = currentItemView.findViewById(R.id.del);
-        Button editbutton = currentItemView.findViewById(R.id.edit);
-        ImageView icon = currentItemView.findViewById(R.id.icon);
-        LinearLayout listItem = currentItemView.findViewById(R.id.listItem);
-        CheckBox checkbox = currentItemView.findViewById(R.id.checkbox);
-        int[] icons = {R.drawable.desktop, R.drawable.build, R.drawable.school, R.drawable.work};
-        String[] iconsName = {"desktop", "build", "school", "work"};
-        userDao = db.getDao();
+
+        onInitialize(position, currentItemView);
 
         if (current.isDone) {
             checkbox.setChecked(true);
+        } else {
+            checkbox.setChecked(false);
         }
-
-        icon.setImageResource(current.icon);
-        icon.setColorFilter(Color.parseColor("#0F2854"));
 
         checkbox.setOnClickListener(V -> {
             if (checkbox.isChecked()) {
-                userDao.updateIsDone(true, current.id);
-                listener.onRowChanged();
-                users.remove(current);
-                //to updatuje list vier (i think)
-                notifyDataSetChanged();
-                //uhhh to updatuje activity (kinda useless)
-                listener.onRowChanged();
-                return;
+                taskDao.updateIsDone(true, current.id);
+                updateTasks();
+            } else {
+                taskDao.updateIsDone(false, current.id);
+                updateTasks();
             }
-            userDao.updateIsDone(false, current.id);
-            listener.onRowChanged();
-            users.remove(current);
-            //to updatuje list vier (i think)
-            notifyDataSetChanged();
-            //uhhh to updatuje activity (kinda useless)
-            listener.onRowChanged();
         });
 
-        editbutton.setOnClickListener(v -> {
+        deleteButton.setOnClickListener(v -> {
+            taskDao.deleteTask(current.id);
+            updateTasks();
+        });
+
+        editButton.setOnClickListener(v -> {
             Intent intent = new Intent(Adapter.this.getContext(), ActivityFunctionEdit.class);
+
+            current = tasks.get(position);
+
             intent.putExtra("id", current.id);
             intent.putExtra("icon", current.icon);
             intent.putExtra("name", current.name);
@@ -101,37 +91,35 @@ public class Adapter extends ArrayAdapter<User> implements View.OnClickListener{
             getContext().startActivity(intent);
         });
 
-        listItem.setOnClickListener(v -> {
-            System.out.println("Kliknięto na");
-            System.out.println(current.id);
-            notifyDataSetChanged();
-        });
-        delbutton.setOnClickListener(v -> {
-            System.out.println("Usun");
-            System.out.println(current.id);
-            userDao.deleteUserById(current.id);
-            //ts usuwa z adaptera
-            users.remove(current);
-            //to updatuje list vier (i think)
-            notifyDataSetChanged();
-            //uhhh to updatuje activity (kinda useless)
-            listener.onRowChanged();
-        });
-
-        id.setText(current.id + "");
-
-        for (int i = 0; i < icons.length; i++) {
-            if (current.icon.equals(iconsName[i])) {
-                icon.setImageResource(icons[i]);
-                System.out.println(current.icon + iconsName[i]);
-            }
-        }
-
-        TextView date = currentItemView.findViewById(R.id.dateText);
-        date.setText(current.dueDate);
-
-        TextView name = currentItemView.findViewById(R.id.name);
-        name.setText(current.name);
         return currentItemView;
+    }
+
+    public void onInitialize(int position, View currentItemView) {
+        dataBase = Room.databaseBuilder(getContext(), AppDatabase.class, "tasks").allowMainThreadQueries().build();
+        taskDao = dataBase.getDao();
+
+        current = tasks.get(position);
+
+        idView = currentItemView.findViewById(R.id.idView);
+        iconView = currentItemView.findViewById(R.id.iconView);
+        nameView = currentItemView.findViewById(R.id.nameView);
+        dateView = currentItemView.findViewById(R.id.dateView);
+        deleteButton = currentItemView.findViewById(R.id.deleteButton);
+        editButton = currentItemView.findViewById(R.id.editButton);
+        checkbox = currentItemView.findViewById(R.id.checkbox);
+
+        iconView.setImageResource(current.icon);
+        iconView.setColorFilter(Color.parseColor("#0F2854"));
+
+        idView.setText(current.id + "");
+        dateView.setText(current.dueDate);
+        nameView.setText(current.name);
+    }
+
+    public void updateTasks() {
+        listener.onRowChanged();
+        tasks.remove(current);
+        notifyDataSetChanged();
+        listener.onRowChanged();
     }
 }

@@ -34,7 +34,7 @@
             android:orientation="vertical"
             android:padding="20dp">
             <EditText
-                android:id="@+id/name"
+                android:id="@+id/nameInput"
                 android:layout_width="match_parent"
                 android:layout_marginBottom="20dp"
                 android:hint="Edytuj nazwe aktywności"
@@ -62,14 +62,14 @@
                 android:layout_height="wrap_content">
 
                 <Spinner
-                    android:id="@+id/icon"
+                    android:id="@+id/iconInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/spinner_background"
                     android:padding="5dp"/>
 
                 <ImageView
-                    android:id="@+id/arrow"
+                    android:id="@+id/arrowImg"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentEnd="true"
@@ -82,14 +82,14 @@
             </RelativeLayout>
 
             <DatePicker
-                android:id="@+id/date"
+                android:id="@+id/dateInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minDate=""
                 android:datePickerMode="spinner"
                 android:calendarViewShown="false"/>
             <Button
-                android:id="@+id/btn2"
+                android:id="@+id/editButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Zatwierdź"

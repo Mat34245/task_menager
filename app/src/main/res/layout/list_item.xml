@@ -15,16 +15,16 @@
         android:layout_marginTop="6dp"
         android:gravity="center_vertical">
 
-    <TextView
-        android:id="@+id/id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ID"
-        android:textColor="#0F2854"
-        android:textSize="32sp" />
+        <TextView
+            android:id="@+id/idView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ID"
+            android:textColor="#0F2854"
+            android:textSize="32sp"/>
 
         <TextView
-            android:id="@+id/dateText"
+            android:id="@+id/dateView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="date"
@@ -40,30 +40,29 @@
         android:orientation="horizontal"
         android:layout_marginTop="6dp"
         android:gravity="center_vertical">
-        <!--Jak nie bedzie ładne to usunąc android:background="@drawable/icon",    android:clipToOutline="true"-->
-    <ImageView
-        android:background="@drawable/icon"
-        android:id="@+id/icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:scaleType="centerCrop"
-        android:clipToOutline="true"
-        />
 
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Name"
-        android:layout_marginLeft="10dp"
-        android:textSize="30sp"
-        android:textColor="#0F2854"
-        android:textStyle="bold"
-        android:fontFamily="sans-serif-medium"
-        />
+        <!--Jak nie bedzie ładne to usunąc android:background="@drawable/icon",    android:clipToOutline="true"-->
+        <ImageView
+            android:background="@drawable/icon"
+            android:id="@+id/iconView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:clipToOutline="true"/>
+
+        <TextView
+            android:id="@+id/nameView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:layout_marginLeft="10dp"
+            android:textSize="30sp"
+            android:textColor="#0F2854"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium"/>
+
     </LinearLayout>
-    <!--Poco TO jest ????-->
 
     <CheckBox
         android:id="@+id/checkbox"
@@ -71,36 +70,33 @@
         android:layout_height="wrap_content"
         android:text="Zrobione"
         android:textSize="20dp"
-        android:textColor="#1C4D8D"
-        />
-    <!--Poco TO jest ????-->
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:textColor="#1C4D8D"/>
+
      <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
         android:gravity="center">
-    <Button
-        android:text="Usuń"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:backgroundTint="#1C4D8D"
-        android:layout_marginStart="6dp"
-        android:id="@+id/del"/>
-    <Button
-        android:text="Edytuj"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#4988C4"
-        android:textColor="@color/white"
-        android:layout_marginStart="6dp"
-        android:id="@+id/edit"/>
+
+        <Button
+            android:text="Usuń"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:backgroundTint="#1C4D8D"
+            android:layout_marginStart="6dp"
+            android:id="@+id/deleteButton"/>
+        <Button
+            android:text="Edytuj"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#4988C4"
+            android:textColor="@color/white"
+            android:layout_marginStart="6dp"
+            android:id="@+id/editButton"/>
 
      </LinearLayout>
 </LinearLayout>

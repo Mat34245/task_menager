@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "users")
-public class User
+@Entity(tableName = "tasks")
+public class Task
 {
     @PrimaryKey(autoGenerate = true)
     public int id;
@@ -22,7 +22,7 @@ public class User
     @ColumnInfo(name = "due_date")
     public String dueDate;
 
-    public User(Integer icon, String name, boolean isDone, String dueDate) {
+    public Task(Integer icon, String name, boolean isDone, String dueDate) {
         this.icon = icon;
         this.name = name;
         this.isDone = isDone;

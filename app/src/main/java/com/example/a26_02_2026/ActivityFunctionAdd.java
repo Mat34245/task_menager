@@ -26,15 +26,15 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class ActivityFunctionAdd extends AppCompatActivity {
 
-    UserDao userDao;
-    Button btn;
-    EditText name;
-    AutoCompleteTextView autoCompleteTextView;
+    AppDatabase dataBase;
+    TaskDao taskDao;
     Integer[] iconsId = {R.drawable.desktop, R.drawable.build, R.drawable.school, R.drawable.work};
     DropdownAdapter dropdownAdapter;
-    Spinner icon;
-    DatePicker date;
-    ImageView arrow;
+    EditText nameInput;
+    Spinner iconInput;
+    ImageView arrowImg;
+    DatePicker dateInput;
+    Button addButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,42 +47,39 @@ public class ActivityFunctionAdd extends AppCompatActivity {
             return insets;
         });
 
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "users")
-                .allowMainThreadQueries().build();
+        onInitialize();
 
-        userDao = db.getDao();
+        addButton.setOnClickListener(v -> {
+            Integer selectedIcon = (Integer) iconInput.getSelectedItem();
 
-        date = findViewById(R.id.date);
-        icon = findViewById(R.id.icon);
+            int day   = dateInput.getDayOfMonth();
+            int month = dateInput.getMonth() + 1;
+            int year  = dateInput.getYear();
 
-        dropdownAdapter = new DropdownAdapter(iconsId,this);
+            String formatedDate = String.format("%02d/%02d/%04d", month, day, year);
 
-        icon.setAdapter(dropdownAdapter);
-
-        arrow = findViewById(R.id.arrow);
-        arrow.setColorFilter(Color.parseColor("#0F2854"));
-        btn = findViewById(R.id.btn2);
-
-        btn.setOnClickListener(v -> {
-            Integer selectedIcon = (Integer) icon.getSelectedItem();
-            name = findViewById(R.id.name);
-            date = findViewById(R.id.date);
-
-            int day   = date.getDayOfMonth();
-            int month = date.getMonth() + 1;
-            int year  = date.getYear();
-
-            String dateForm = String.format("%02d/%02d/%04d", month, day, year);
-
-            User user = new User(selectedIcon, name.getText().toString(), false, dateForm);
-
-            userDao.insertUser(user);
+            Task task = new Task(selectedIcon, nameInput.getText().toString(), false, formatedDate);
+            taskDao.insertTask(task);
 
             startActivity(new Intent(ActivityFunctionAdd.this, MainActivity.class));
-
         });
+    }
 
-        date.setMinDate(System.currentTimeMillis());
+    public void onInitialize() {
+        dataBase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tasks").allowMainThreadQueries().build();
+        taskDao = dataBase.getDao();
 
+        nameInput = findViewById(R.id.nameInput);
+        dateInput = findViewById(R.id.dateInput);
+        iconInput = findViewById(R.id.iconInput);
+        addButton = findViewById(R.id.addButton);
+
+        arrowImg = findViewById(R.id.arrowImg);
+        arrowImg.setColorFilter(Color.parseColor("#0F2854"));
+
+        dropdownAdapter = new DropdownAdapter(iconsId,this);
+        iconInput.setAdapter(dropdownAdapter);
+
+        dateInput.setMinDate(System.currentTimeMillis());
     }
 }

@@ -5,14 +5,14 @@
     android:id="@+id/main"
     android:orientation="vertical"
     android:background="#BDE8F5">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="vertical">
 
-        >
         <EditText
-            android:id="@+id/wyszukiwanie"
+            android:id="@+id/searchInput"
             android:hint="Wyszukaj nazwe zadania"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,11 +21,11 @@
             android:layout_marginRight="10px"
             android:background="@drawable/search"
             android:padding="10dp"
-            android:elevation="6px"
-            />
+            android:elevation="6px"/>
+
         <Button
             android:text="wyszukaj"
-            android:id="@+id/btn2"
+            android:id="@+id/searchButton"
             android:textSize="19dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,14 +34,9 @@
             android:paddingRight="10dp"
             android:layout_marginBottom="20px"
             android:layout_marginLeft="20px"
-            android:layout_marginRight="20px"
-            />
+            android:layout_marginRight="20px"/>
 
     </LinearLayout>
-
-
-
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,10 +44,8 @@
         android:orientation="horizontal"
         android:background="#BDE8F5">
 
-
-
         <Button
-            android:id="@+id/btn"
+            android:id="@+id/addButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -61,11 +54,7 @@
             android:textColor="@color/white"
             android:backgroundTint="#0F2854"
             android:paddingRight="10dp"
-            android:layout_margin="20px"
-
-
-            />
-
+            android:layout_margin="20px"/>
 
     </LinearLayout>
 
@@ -85,7 +74,7 @@
 
     <!--Indian tutorial carrying me rn on how to make it accualy scroll-->
     <ListView
-        android:id="@+id/listView"
+        android:id="@+id/tasksList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -93,6 +82,7 @@
         android:dividerHeight="6dp"
         android:paddingLeft="6dp"
         android:paddingRight="6dp"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -108,7 +98,7 @@
         android:layout_margin="10dp"/>
 
     <ListView
-        android:id="@+id/listView2"
+        android:id="@+id/finishedTasksList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -116,4 +106,5 @@
         android:dividerHeight="6dp"
         android:paddingLeft="6dp"
         android:paddingRight="6dp"/>
+
 </LinearLayout>

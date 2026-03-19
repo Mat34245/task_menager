@@ -18,25 +18,14 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements Adapter.onRowChangedListener {
 
-    Button btn;
-    Button btn2;
-    Adapter adapter;
-    EditText wyszukaj;
-
-    public Adapter adapter2;
-    Adapter adapter3;
-    Adapter adapter4;
-    ListView listView;
-
-    ListView listView2;
-    List<User> users;
-
-    List<User> DoneTasks;
-
-    List<User> searchDoneTasks;
-
-    List<User> searchTasks;
-    UserDao userDao;
+    Button addButton, searchButton;
+    EditText searchInput;
+    public Adapter tasksAdapter, finishedTasksAdapter;
+    ListView tasksList, finishedTasksList;
+    List<Task> tasks, finishedTasks;
+    TaskDao taskDao;
+    AppDatabase dataBase;
+    String searchText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,63 +37,54 @@ public class MainActivity extends AppCompatActivity implements Adapter.onRowChan
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        listView = findViewById(R.id.listView);
-        listView2 = findViewById(R.id.listView2);
 
+        onInitialize();
 
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "users")
-                .allowMainThreadQueries().build();
+        searchButton.setOnClickListener(v -> {
+            searchText = '%' + searchInput.getText().toString() + '%';
 
+            finishedTasks = taskDao.searchDoneTasks(searchText);
+            tasks = taskDao.searchTasks(searchText);
 
-        userDao = db.getDao();
-
-        users = userDao.getUsers();
-        DoneTasks= userDao.getDoneTasks();
-
-        adapter = new Adapter(users, MainActivity.this, this);
-        adapter2 = new Adapter(DoneTasks,MainActivity.this,this);
-        listView.setAdapter(adapter);
-        listView2.setAdapter(adapter2);
-
-
-        btn = findViewById(R.id.btn);
-
-        btn2 = findViewById(R.id.btn2);
-
-        btn2.setOnClickListener(v -> {
-            wyszukaj = findViewById(R.id.wyszukiwanie);
-            String wyszukiwanie = '%'+wyszukaj.getText().toString()+'%';
-
-            searchDoneTasks = userDao.searchDoneTasks(wyszukiwanie);
-            searchTasks = userDao.searchTasks(wyszukiwanie);
-
-            adapter3 = new Adapter(searchTasks, MainActivity.this,this);
-            adapter4 = new Adapter(searchDoneTasks, MainActivity.this,this);
-
-            listView.setAdapter(adapter3);
-            listView2.setAdapter(adapter4);
-
-            System.out.println(wyszukiwanie);
-
+            updateAdapters(tasks, finishedTasks, tasksAdapter, finishedTasksAdapter);
         });
 
-        btn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ActivityFunctionAdd.class)));
-
-//        btn.setOnClickListener(v -> {
-//            userDao.insertUser(new User("folder/", "Kamil", true, "2026"));
-//            System.out.println(users);
-//        });
+        addButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, ActivityFunctionAdd.class)));
 
     }
 
     @Override
     public void onRowChanged() {
-          DoneTasks = userDao.getDoneTasks();
-          users = userDao.getUsers();
-          adapter = new Adapter(users, MainActivity.this, this);
-          adapter2 = new Adapter(DoneTasks,MainActivity.this,this);
-          listView.setAdapter(adapter);
-          listView2.setAdapter(adapter2);
+        finishedTasks = taskDao.getDoneTasks();
+        tasks = taskDao.getTasks();
+
+        updateAdapters(tasks, finishedTasks, tasksAdapter, finishedTasksAdapter);
+    }
+
+    public void onInitialize() {
+        tasksList = findViewById(R.id.tasksList);
+        finishedTasksList = findViewById(R.id.finishedTasksList);
+
+        dataBase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tasks").allowMainThreadQueries().build();
+        taskDao = dataBase.getDao();
+
+        finishedTasks = taskDao.getDoneTasks();
+        tasks = taskDao.getTasks();
+
+        addButton = findViewById(R.id.addButton);
+        searchButton = findViewById(R.id.searchButton);
+
+        searchInput = findViewById(R.id.searchInput);
+
+        updateAdapters(tasks, finishedTasks, tasksAdapter, finishedTasksAdapter);
+    }
+
+    public void updateAdapters(List<Task> tasks, List<Task> finishedTasks, Adapter firstAdapter, Adapter secondAdapter) {
+        firstAdapter = new Adapter(tasks, MainActivity.this, this);
+        secondAdapter = new Adapter(finishedTasks,MainActivity.this,this);
+
+        tasksList.setAdapter(firstAdapter);
+        finishedTasksList.setAdapter(secondAdapter);
     }
 }
 

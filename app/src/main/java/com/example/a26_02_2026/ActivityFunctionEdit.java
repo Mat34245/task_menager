@@ -25,15 +25,18 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class ActivityFunctionEdit extends AppCompatActivity {
 
-    UserDao userDao;
-    Button btn;
-    EditText name;
-    AutoCompleteTextView autoCompleteTextView;
+    AppDatabase dataBase;
+    TaskDao taskDao;
     Integer[] iconsId = {R.drawable.desktop, R.drawable.build, R.drawable.school, R.drawable.work};
-    Spinner icon;
-    DatePicker date;
     DropdownAdapter dropdownAdapter;
-    ImageView arrow;
+    EditText nameInput;
+    Spinner iconInput;
+    ImageView arrowImg;
+    DatePicker dateInput;
+    Button addButton;
+    int iconFromIntent, idFromIntent;
+    String nameFromIntent, dueDateFromIntent;
+    String[] parts = new String[3];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,62 +49,61 @@ public class ActivityFunctionEdit extends AppCompatActivity {
             return insets;
         });
 
-        icon = findViewById(R.id.icon);
-        name = findViewById(R.id.name);
-        date = findViewById(R.id.date);
+        onInitialize();
 
-        btn = findViewById(R.id.btn2);
+        addButton.setOnClickListener(v -> {
+            Integer selectedIcon = (Integer) iconInput.getSelectedItem();
+
+            int day   = dateInput.getDayOfMonth();
+            int month = dateInput.getMonth() + 1;
+            int year  = dateInput.getYear();
+
+            String formatedDate = String.format("%02d/%02d/%04d", month, day, year);
+
+            taskDao.updateTask(idFromIntent, nameInput.getText().toString(), selectedIcon, formatedDate);
+
+            startActivity(new Intent(ActivityFunctionEdit.this, MainActivity.class));
+        });
+    }
+
+    public void onInitialize() {
+        dataBase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "tasks").allowMainThreadQueries().build();
+        taskDao = dataBase.getDao();
 
         Bundle extras = getIntent().getExtras();
 
-        date = findViewById(R.id.date);
-        int id = extras.getInt("id");
-        String iconFromIntent = extras.getString("icon");
-        String nameFromIntent = extras.getString("name");
-        String dueDateFromIntent = extras.getString("dueDate");
+        idFromIntent = extras.getInt("id");
+        iconFromIntent = extras.getInt("icon");
+        nameFromIntent = extras.getString("name");
+        dueDateFromIntent = extras.getString("dueDate");
 
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "users")
-                .allowMainThreadQueries().build();
+        parts = dueDateFromIntent.split("/");
 
-        userDao = db.getDao();
+        nameInput = findViewById(R.id.nameInput);
+        dateInput = findViewById(R.id.dateInput);
+        iconInput = findViewById(R.id.iconInput);
+        addButton = findViewById(R.id.editButton);
 
-        name.setText(nameFromIntent);
-
-        date = findViewById(R.id.date);
-        icon = findViewById(R.id.icon);
-
-        dropdownAdapter = new DropdownAdapter(iconsId,this);
-
-        icon.setAdapter(dropdownAdapter);
-
-        arrow = findViewById(R.id.arrow);
-        arrow.setColorFilter(Color.parseColor("#0F2854"));
-
-        String[] parts = dueDateFromIntent.split("/");
+        nameInput.setText(nameFromIntent);
 
         int m = Integer.parseInt(parts[0]) - 1;
         int d   = Integer.parseInt(parts[1]);
         int y  = Integer.parseInt(parts[2]);
 
-        date.updateDate(y, m, d);
+        dateInput.updateDate(y, m, d);
 
-        btn.setOnClickListener(v -> {
-            Integer selectedIcon = (Integer) icon.getSelectedItem();
-            name = findViewById(R.id.name);
-            date = findViewById(R.id.date);
+        arrowImg = findViewById(R.id.arrowImg);
+        arrowImg.setColorFilter(Color.parseColor("#0F2854"));
 
-            int day   = date.getDayOfMonth();
-            int month = date.getMonth() + 1;
-            int year  = date.getYear();
+        dropdownAdapter = new DropdownAdapter(iconsId,this);
+        iconInput.setAdapter(dropdownAdapter);
 
-            String dateForm = String.format("%02d/%02d/%04d", month, day, year);
+        for (int i = 0; i < iconsId.length; i++) {
+            if (Integer.compare(iconsId[i], iconFromIntent) == 0) {
+                iconInput.setSelection(i);
+            }
+        }
 
-            userDao.update(id, name.getText().toString(), selectedIcon, dateForm);
-
-            startActivity(new Intent(ActivityFunctionEdit.this, MainActivity.class));
-        });
-
-        date.setMinDate(System.currentTimeMillis());
-
+        dateInput.setMinDate(System.currentTimeMillis());
     }
 }

@@ -14,11 +14,18 @@ import androidx.annotation.Nullable;
 public class DropdownAdapter extends ArrayAdapter<Integer> implements View.OnClickListener{
 
     private  Integer[] icons;
-    private ImageView icon;
+
     public DropdownAdapter(Integer[] icons, Context context) {
         super(context, 0, icons);
         this.icons = icons;
     }
+
+    @Override
+    public void onClick(View v) { }
+
+    View dropDownView;
+    Integer current;
+    ImageView iconImg;
 
     @NonNull
     @Override
@@ -30,34 +37,29 @@ public class DropdownAdapter extends ArrayAdapter<Integer> implements View.OnCli
             currentItemView = LayoutInflater.from(getContext()).inflate(R.layout.dropdown_item, parent, false);
         }
 
-        Integer current = icons[position];
-        icon = currentItemView.findViewById(R.id.iconImg);
-        icon.setColorFilter(Color.parseColor("#0F2854"));
-
-        icon.setImageResource(current);
+        onInitialize(position, currentItemView);
 
         return currentItemView;
     }
 
     @Override
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View dropDownView = convertView;
+        dropDownView = convertView;
 
         if (dropDownView == null) {
             dropDownView = LayoutInflater.from(getContext()).inflate(R.layout.dropdown_item, parent, false);
         }
 
-        Integer current = icons[position];
-        ImageView icon = dropDownView.findViewById(R.id.iconImg);
-        icon.setImageResource(current);
-        icon.setColorFilter(Color.parseColor("#0F2854"));
+        onInitialize(position, dropDownView);
 
         return dropDownView;
     }
 
+    public void onInitialize(int position, View currentItemView) {
+        current = icons[position];
+        iconImg = currentItemView.findViewById(R.id.iconImg);
 
-    @Override
-    public void onClick(View v) {
-
+        iconImg.setImageResource(current);
+        iconImg.setColorFilter(Color.parseColor("#0F2854"));
     }
 }
