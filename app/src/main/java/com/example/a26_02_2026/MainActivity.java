@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements Adapter.onRowChan
         onInitialize();
 
         searchButton.setOnClickListener(v -> {
-            searchText = '%' + searchInput.getText().toString() + '%';
+            searchText = searchInput.getText().toString() + '%';
 
             finishedTasks = taskDao.searchDoneTasks(searchText);
             tasks = taskDao.searchTasks(searchText);
