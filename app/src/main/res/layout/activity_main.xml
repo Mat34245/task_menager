@@ -6,105 +6,102 @@
     android:orientation="vertical"
     android:background="#BDE8F5">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/searchInput"
-            android:hint="Wyszukaj nazwe zadania"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10px"
-            android:layout_marginLeft="10px"
-            android:layout_marginRight="10px"
-            android:background="@drawable/search"
-            android:padding="10dp"
-            android:elevation="6px"/>
+            android:orientation="vertical"
+            android:layout_marginTop="15sp">
 
-        <Button
-            android:text="wyszukaj"
-            android:id="@+id/searchButton"
-            android:textSize="19dp"
+            <EditText
+                android:id="@+id/searchInput"
+                android:hint="Wyszukaj nazwe zadania"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10px"
+                android:layout_marginLeft="10px"
+                android:layout_marginRight="10px"
+                android:background="@drawable/search"
+                android:padding="10dp"
+                android:elevation="6px"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:text="Wyszukaj"
+                android:id="@+id/searchButton"
+                android:textSize="19dp"
+                android:layout_width="0sp"
+                android:layout_weight="2"
+                android:layout_margin="5dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:backgroundTint="#1f6acc"/>
+
+            <Button
+                android:id="@+id/addButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Dodaj"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:textSize="19dp"
+                android:textColor="@color/white"
+                android:backgroundTint="#0F2854"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nieukończone"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.1"
             android:textColor="@color/white"
-            android:backgroundTint="#0F2854"
-            android:paddingRight="10dp"
-            android:layout_marginBottom="20px"
-            android:layout_marginLeft="20px"
-            android:layout_marginRight="20px"/>
+            android:background="@drawable/thebigblu"
+            android:padding="12dp"
+            android:gravity="center"
+            android:layout_margin="5sp"/>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#BDE8F5">
-
-        <Button
-            android:id="@+id/addButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <!--Indian tutorial carrying me rn on how to make it accualy scroll-->
+        <ListView
+            android:id="@+id/tasksList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="Dodaj"
-            android:textSize="19dp"
+            android:divider="@drawable/thebigblu"
+            android:dividerHeight="3dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Skończone"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.1"
             android:textColor="@color/white"
-            android:backgroundTint="#0F2854"
-            android:paddingRight="10dp"
-            android:layout_margin="20px"/>
+            android:background="@drawable/thebigblu"
+            android:padding="12dp"
+            android:gravity="center"
+            android:layout_margin="5sp"/>
 
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nieukończone"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:letterSpacing="0.05"
-        android:textColor="@color/white"
-        android:background="@drawable/thebigblu"
-        android:padding="12dp"
-        android:gravity="center"
-        android:elevation="6dp"
-        android:layout_margin="10dp"/>
-
-    <!--Indian tutorial carrying me rn on how to make it accualy scroll-->
-    <ListView
-        android:id="@+id/tasksList"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:divider="#1C4D8D"
-        android:dividerHeight="6dp"
-        android:paddingLeft="6dp"
-        android:paddingRight="6dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Skończone"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:letterSpacing="0.05"
-        android:textColor="@color/white"
-        android:background="@drawable/thebigblu"
-        android:padding="12dp"
-        android:gravity="center"
-        android:elevation="6dp"
-        android:layout_margin="10dp"/>
-
-    <ListView
-        android:id="@+id/finishedTasksList"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:divider="#1C4D8D"
-        android:dividerHeight="6dp"
-        android:paddingLeft="6dp"
-        android:paddingRight="6dp"/>
+        <ListView
+            android:id="@+id/finishedTasksList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:divider="@drawable/thebigblu"
+            android:dividerHeight="3dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"/>
 
 </LinearLayout>

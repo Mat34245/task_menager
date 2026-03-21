@@ -28,8 +28,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="date"
+                android:textStyle="italic"
                 android:textColor="#0F2854"
-                android:textSize="25sp"/>
+                android:textSize="20sp"/>
 
         </LinearLayout>
         <LinearLayout
@@ -44,11 +45,13 @@
                 android:id="@+id/idView"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:text="ID"
-                android:layout_marginRight="11sp"
-                android:textAlignment="center"
+                android:text="10"
+                android:layout_marginRight="9.5sp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="2dp"
                 android:textColor="@color/white"
-                android:textSize="32sp"/>
+                android:textSize="23sp"
+                android:gravity="center_vertical|center"/>
 
         </LinearLayout>
     </LinearLayout>
@@ -63,10 +66,12 @@
         <ImageView
             android:background="@drawable/icon"
             android:id="@+id/iconView"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
             android:layout_gravity="center"
             android:scaleType="centerCrop"
+            android:src="@drawable/desktop"
+            android:layout_marginLeft="5dp"
             android:clipToOutline="true"/>
 
         <TextView
@@ -75,45 +80,62 @@
             android:layout_height="wrap_content"
             android:text="Name"
             android:layout_marginLeft="10dp"
-            android:textSize="30sp"
-            android:textColor="#0F2854"
+            android:textSize="23sp"
             android:textStyle="bold"
+            android:textColor="#0F2854"
             android:fontFamily="sans-serif-medium"/>
 
     </LinearLayout>
 
-    <CheckBox
-        android:id="@+id/checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Zrobione"
-        android:textSize="20dp"
-        android:textColor="#1C4D8D"/>
-
-     <LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_marginTop="5dp">
 
         <Button
             android:text="Usuń"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
+            android:layout_height="40sp"
             android:textColor="@color/white"
             android:backgroundTint="#1C4D8D"
-            android:layout_marginStart="6dp"
-            android:id="@+id/deleteButton"/>
+            android:layout_marginStart="2dp"
+            android:id="@+id/deleteButton"
+            android:textStyle="bold"/>
         <Button
             android:text="Edytuj"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#4988C4"
+            android:layout_height="40sp"
+            android:backgroundTint="#1f6acc"
             android:textColor="@color/white"
-            android:layout_marginStart="6dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
             android:id="@+id/editButton"/>
 
-     </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30sp"
+        android:background="@drawable/checkbox_bg"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginBottom="7dp">
+
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="30sp"
+            android:text="Zrobione"
+            android:textSize="17dp"
+            android:textStyle="bold|italic"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
 </LinearLayout>
